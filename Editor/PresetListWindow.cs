@@ -132,6 +132,11 @@ namespace Elevator89.BuildPresetter
 							IncludedScenes = new List<string>(preset.IncludedScenes),
 							InitialSceneIndex = preset.InitialSceneIndex,
 							UseIncrementalGC = preset.UseIncrementalGC,
+							Il2CppCodeGeneration = preset.Il2CppCodeGeneration,
+							Il2CppCompilerConfiguration = preset.Il2CppCompilerConfiguration,
+							IncrementalIl2CppBuild = preset.IncrementalIl2CppBuild,
+							ScriptingImplementation = preset.ScriptingImplementation,
+							SkipCopyPdbFiles = preset.SkipCopyPdbFiles
 						};
 
 						_presets.AddPreset(clone);
@@ -271,6 +276,7 @@ namespace Elevator89.BuildPresetter
 				preset.UseIncrementalGC = EditorGUILayout.Toggle("Use incremental GC", preset.UseIncrementalGC);
 				preset.Il2CppCodeGeneration = (Il2CppCodeGeneration)EditorGUILayout.EnumPopup("Il2CppCodeGeneration", preset.Il2CppCodeGeneration);
 				preset.Il2CppCompilerConfiguration = (Il2CppCompilerConfiguration)EditorGUILayout.EnumPopup("Il2CppCompilerConfiguration", preset.Il2CppCompilerConfiguration);
+				preset.SkipCopyPdbFiles = EditorGUILayout.Toggle("Don't copy PDB files (Windows)", preset.SkipCopyPdbFiles);
 
 				GUILayout.BeginHorizontal(GUILayout.ExpandHeight(false));
 				{

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Build;
+using UnityEditor.WindowsStandalone;
 using UnityEngine;
 
 namespace Elevator89.BuildPresetter
@@ -38,10 +39,11 @@ namespace Elevator89.BuildPresetter
 			preset.ScriptingImplementation = PlayerSettings.GetScriptingBackend(buildTargetGroup);
 			preset.IncrementalIl2CppBuild = PlayerSettings.GetIncrementalIl2CppBuild(buildTargetGroup);
 			preset.Il2CppCompilerConfiguration = PlayerSettings.GetIl2CppCompilerConfiguration(namedBuildTarget);
-			preset.Il2CppCodeGeneration = PlayerSettings.GetIl2CppCodeGeneration(namedBuildTarget);
+			preset.Il2CppCodeGeneration = EditorUserBuildSettings.il2CppCodeGeneration;
 			preset.DefineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(buildTargetGroup);
 			preset.IncludedScenes = EditorBuildSettings.scenes.Select(scene => scene.path).ToList();
 			preset.InitialSceneIndex = 0;
+			preset.SkipCopyPdbFiles = !UserBuildSettings.copyPDBFiles;
 
 			preset.IncludedResources = Util.FindResourcesFolders(searchIncluded: true, searchExcluded: false).ToList();
 
@@ -67,7 +69,7 @@ namespace Elevator89.BuildPresetter
 			PlayerSettings.SetIncrementalIl2CppBuild(preset.BuildTargetGroup, preset.IncrementalIl2CppBuild);
 			PlayerSettings.SetIl2CppCompilerConfiguration(preset.BuildTargetGroup, preset.Il2CppCompilerConfiguration);
 			NamedBuildTarget namedBuildTarget = NamedBuildTarget.FromBuildTargetGroup(preset.BuildTargetGroup);
-			PlayerSettings.SetIl2CppCodeGeneration(namedBuildTarget, preset.Il2CppCodeGeneration);
+			EditorUserBuildSettings.il2CppCodeGeneration = preset.Il2CppCodeGeneration;
 
 			PlayerSettings.SetScriptingDefineSymbolsForGroup(preset.BuildTargetGroup, preset.DefineSymbols);
 
@@ -75,6 +77,7 @@ namespace Elevator89.BuildPresetter
 			EditorBuildSettingsScene initialScene = enabledScenes[preset.InitialSceneIndex];
 			enabledScenes.RemoveAt(preset.InitialSceneIndex);
 			enabledScenes.Insert(0, initialScene);
+			UserBuildSettings.copyPDBFiles = !preset.SkipCopyPdbFiles;
 
 			EditorBuildSettings.scenes = enabledScenes.ToArray();
 

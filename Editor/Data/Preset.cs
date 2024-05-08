@@ -68,6 +68,9 @@ namespace Elevator89.BuildPresetter.Data
 
 		[SerializeField]
 		public Il2CppCodeGeneration Il2CppCodeGeneration;
+
+		[SerializeField]
+		public bool SkipCopyPdbFiles;
 	}
 }
 
