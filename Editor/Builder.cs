@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -73,6 +73,8 @@ namespace Elevator89.BuildPresetter
 			Presetter.SetCurrent(preset);
 
 			PlayerSettings.bundleVersion = string.IsNullOrWhiteSpace(version) ? "" : version;
+			if (!string.IsNullOrWhiteSpace(PlayerSettings.bundleVersion))
+				PlayerSettings.productName = $"{PlayerSettings.productName} ({PlayerSettings.bundleVersion})";
 
 			try
 			{
