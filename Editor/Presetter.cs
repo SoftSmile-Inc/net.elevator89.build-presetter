@@ -7,6 +7,10 @@ using UnityEditor.Build;
 using UnityEditor.WindowsStandalone;
 using UnityEngine;
 
+#if UNITY_EDITOR_WIN
+using UnityEditor.WindowsStandalone;
+#endif
+
 namespace Elevator89.BuildPresetter
 {
 	public static class Presetter
@@ -43,7 +47,9 @@ namespace Elevator89.BuildPresetter
 			preset.DefineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(buildTargetGroup);
 			preset.IncludedScenes = EditorBuildSettings.scenes.Select(scene => scene.path).ToList();
 			preset.InitialSceneIndex = 0;
+#if UNITY_EDITOR_WIN
 			preset.SkipCopyPdbFiles = !UserBuildSettings.copyPDBFiles;
+#endif
 
 			preset.IncludedResources = Util.FindResourcesFolders(searchIncluded: true, searchExcluded: false).ToList();
 
@@ -77,7 +83,9 @@ namespace Elevator89.BuildPresetter
 			EditorBuildSettingsScene initialScene = enabledScenes[preset.InitialSceneIndex];
 			enabledScenes.RemoveAt(preset.InitialSceneIndex);
 			enabledScenes.Insert(0, initialScene);
+#if UNITY_EDITOR_WIN
 			UserBuildSettings.copyPDBFiles = !preset.SkipCopyPdbFiles;
+#endif
 
 			EditorBuildSettings.scenes = enabledScenes.ToArray();
 
